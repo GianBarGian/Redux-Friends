@@ -1,25 +1,39 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Route, Link, Redirect } from 'react-router-dom';
+import FriendList from './views/FriendList';
+import Login from './views/Login';
+
+
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        <nav>
+            <Link to='/'>Home</Link>
+            <Link to='/friends'>Friends</Link>
+            <Link to='/login'>Login</Link>
+        </nav>
+
+        <Route 
+          path="/friends"
+          render={() => (
+            localStorage.getItem('token')
+            ? (
+              <FriendList />
+            )
+            : (
+              <Redirect to="/login" />
+            )
+          )} 
+        />
+
+        <Route
+          path="/login"
+          render={() => (
+            <Login />
+          )} 
+        />
       </div>
     );
   }
